@@ -35,6 +35,9 @@ function loadJason() {
       jasonObj = JSON.parse(load.responseText);
       jasonArray.push(jasonObj.data);
       createTable(jasonArray[jasonArray.length-1], document.querySelector('.table--second'));
+      if (!jasonObj.loadMore) {
+        button.style.display = 'none';
+      }
     }
   }
 }

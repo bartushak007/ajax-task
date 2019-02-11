@@ -10,11 +10,12 @@ tableAjax.open('GET','https://tanuhaua.github.io/datas-file-json/visitors.json',
 tableAjax.send();
 
 let tableParse = [];
-
+let mark = null;
 tableAjax.onload = () => {
   if (tableAjax.status === 200) {
     tableParse = JSON.parse(tableAjax.responseText).sort( (a, b) => a.id - b.id);    
     createTable(tableParse, document.querySelector('.table--one'));
+    mark = 'ID';
   }
 }
 
@@ -25,20 +26,31 @@ newTable.addEventListener('click', event => {
     }
   }
 
-  if (event.target.tagName === 'TH') {        
-    if (event.target.innerText === 'CREATEDAT') {
-      const newTableParse = tableParse.sort( (a, b) => new Date(a.createdAt) - new Date(b.createdAt));          
-      createTable(newTableParse, document.querySelector('.table--one'));        
-    } else if (event.target.innerText === 'ID') {
-      const newTableParse = tableParse = JSON.parse(tableAjax.responseText).sort( (a, b) => a.id - b.id); 
-      createTable(newTableParse, document.querySelector('.table--one'));
+  function sortTable(y) {
+    if (mark === event.target.innerText) {
+      mark === 0;
+      tableParse.reverse();               
+      createTable(tableParse, document.querySelector('.table--one')); 
     } else {
-      const newTableParse = tableParse.sort( (a, b) => {
-      const x = event.target.innerText.toLowerCase();
+      mark = event.target.innerText;
+      tableParse.sort(y);               
+      createTable(tableParse, document.querySelector('.table--one')); 
+    }
+  }
+
+  if (event.target.tagName === 'TH') {    
+    if (event.target.innerText === 'CREATEDAT') {      
+      sortTable( (a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    } else if (event.target.innerText === 'ID') {
+      sortTable( (a, b) => a.id - b.id);      
+    } else {
+      const sortedTable = (a, b) => {
+        const x = event.target.innerText.toLowerCase();
         
-       return a[x].toLowerCase().localeCompare(b[x].toLowerCase())}); 
-      createTable(newTableParse, document.querySelector('.table--one'));
-    } 
+        return a[x].toLowerCase().localeCompare(b[x].toLowerCase())
+      };
+      sortTable(sortedTable);      
+    }
   }
 });
 
@@ -54,6 +66,11 @@ function createTable(tableParse, newTable) {
         const tableTd = document.createElement('th');
         tableTd.innerText = key.toUpperCase();
         tableTd.classList.add('table__td--bold');
+        
+        if (newTable.classList.contains('table--one')) {
+          tableTd.title='click to sort or invert';
+        }        
+        
         tableTrForTd.appendChild(tableTd); 
       }
     }
@@ -88,3 +105,4 @@ function createTable(tableParse, newTable) {
     tableTr.appendChild(tableThDescription);
   });
 }
+
