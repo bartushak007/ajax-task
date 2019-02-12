@@ -26,7 +26,7 @@ newTable.addEventListener('click', event => {
 
   function sortTable(func) {
     if (mark === event.target.innerText) {
-      mark === '';
+      mark = '';
       tableParse.reverse();               
       createTable(tableParse, document.querySelector('.table--one')); 
     } else {

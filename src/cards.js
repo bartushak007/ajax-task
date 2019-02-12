@@ -1,5 +1,5 @@
 let ancestry = new XMLHttpRequest();
-ancestry.open('GET','https://tanuhaua.github.io/datas-file-json/data.json', true);
+ancestry.open('GET','https://www.facebook.com/ajax/bz', true);
 ancestry.send();
 
 ancestry.addEventListener('load',() => {
