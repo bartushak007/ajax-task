@@ -1,5 +1,3 @@
-export { createTable };
-
 let newTable = document.createElement('table');
 newTable.classList.add('table');
 newTable.classList.add('table--one');
@@ -10,14 +8,14 @@ tableAjax.open('GET','https://tanuhaua.github.io/datas-file-json/visitors.json',
 tableAjax.send();
 
 let tableParse = [];
-let mark = null;
-tableAjax.onload = () => {
+let mark = '';
+tableAjax.addEventListener('load', () => {
   if (tableAjax.status === 200) {
     tableParse = JSON.parse(tableAjax.responseText).sort( (a, b) => a.id - b.id);    
     createTable(tableParse, document.querySelector('.table--one'));
     mark = 'ID';
   }
-}
+});
 
 newTable.addEventListener('click', event => {  
   if (newTable.children.length > 0) {
@@ -26,14 +24,14 @@ newTable.addEventListener('click', event => {
     }
   }
 
-  function sortTable(y) {
+  function sortTable(func) {
     if (mark === event.target.innerText) {
-      mark === 0;
+      mark === '';
       tableParse.reverse();               
       createTable(tableParse, document.querySelector('.table--one')); 
     } else {
       mark = event.target.innerText;
-      tableParse.sort(y);               
+      tableParse.sort(func);               
       createTable(tableParse, document.querySelector('.table--one')); 
     }
   }
@@ -62,13 +60,14 @@ function createTable(tableParse, newTable) {
     const {id, createdAt, name, email, description} = elem; 
 
     if (newTable.querySelectorAll('TR').length === 1) {        
-      for (const key in elem) {
+      for (let key of Object.keys(elem)) {
         const tableTd = document.createElement('th');
         tableTd.innerText = key.toUpperCase();
         tableTd.classList.add('table__td--bold');
         
         if (newTable.classList.contains('table--one')) {
-          tableTd.title='click to sort or invert';
+          tableTd.title = 'click to sort or invert';
+          tableTd.style.cursor = 'pointer';
         }        
         
         tableTrForTd.appendChild(tableTd); 
@@ -106,3 +105,4 @@ function createTable(tableParse, newTable) {
   });
 }
 
+export { createTable };

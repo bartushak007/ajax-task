@@ -2,11 +2,11 @@ let ancestry = new XMLHttpRequest();
 ancestry.open('GET','https://tanuhaua.github.io/datas-file-json/data.json', true);
 ancestry.send();
 
-ancestry.onload = () => {
+ancestry.addEventListener('load',() => {
   if (ancestry.status === 200) {
     createCardList(JSON.parse(ancestry.responseText));
   }
-}
+});
 
 function createCardList(arr) {
   var array = [],

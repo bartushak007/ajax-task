@@ -11,11 +11,12 @@
     padding: 2px 20px;
 
     &--bold {
-      border: solid 2px black;
+      border: solid 2px black;      
     }
   }
 }
 
 .button {
   display: block;
+  cursor: pointer;
 }

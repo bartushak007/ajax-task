@@ -8,14 +8,14 @@ secondTable.classList.add('table--second');
 document.body.appendChild(secondTable);
 
 const button = document.createElement('button');
-button.classList.add('button')
+button.classList.add('button');
 button.innerText = 'Load more values';
 document.body.appendChild(button);
 
 let jasonObj = {};
 const jasonArray = [];
 
-loadJason()
+loadJason();
 
 button.addEventListener('click', event => {
   if (jasonObj.loadMore) {
@@ -30,7 +30,7 @@ function loadJason() {
   count++;
 
   load.send();
-  load.onload = () => {
+  load.addEventListener('load', () => {
     if (load.status === 200) {
       jasonObj = JSON.parse(load.responseText);
       jasonArray.push(jasonObj.data);
@@ -39,5 +39,5 @@ function loadJason() {
         button.style.display = 'none';
       }
     }
-  }
+  });
 }
